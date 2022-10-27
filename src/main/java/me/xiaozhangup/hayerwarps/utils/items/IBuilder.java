@@ -1,9 +1,9 @@
-package org.example.utils.items;
+package me.xiaozhangup.hayerwarps.utils.items;
 
+import me.xiaozhangup.hayerwarps.utils.tools.IString;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.example.utils.tools.IString;
 
 import java.util.ArrayList;
 import java.util.List;

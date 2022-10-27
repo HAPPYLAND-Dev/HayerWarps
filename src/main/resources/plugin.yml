@@ -1,4 +1,13 @@
-name: PluginName
+name: HayerWarps
 version: ${project.version}
 api-version: 1.16
-main: org.example.Main
+main: me.xiaozhangup.hayerwarps.HayerWarps
+
+depend:
+  - IridiumSkyblock
+  - Vault
+
+commands:
+  pw:
+  pwadd:
+  pwliked:
