@@ -42,15 +42,26 @@ public class YourLike implements Listener {
         for (Integer i : wslot) {
             if (Like.getLiked(p).size() <= ws) continue;
             var warp = Like.getLiked(p).get(ws);
-            inv.setItem(i,
-                    IBuilder.buildItem(
-                            warp.material,
-                            "&f" + warp.getName(),
-                            "",
-                            "&e左键 &7- 传送到对应位置",
-                            "&e右键 &7- &c取消收藏"
-                    )
-                    );
+            if (warp.getMaterial() == Material.BARRIER) {
+                inv.setItem(i,
+                        IBuilder.buildItem(
+                                warp.material,
+                                "&c已删除的传送点",
+                                "",
+                                "&e单击 &7- &c取消收藏"
+                        )
+                );
+            } else {
+                inv.setItem(i,
+                        IBuilder.buildItem(
+                                warp.material,
+                                "&f" + warp.getName(),
+                                "",
+                                "&e左键 &7- 传送到对应位置",
+                                "&e右键 &7- &c取消收藏"
+                        )
+                );
+            }
             ws++;
         }
 
@@ -69,26 +80,27 @@ public class YourLike implements Listener {
                 return;
             }
             if (wslot.contains(e.getRawSlot())) {
-                switch (e.getClick()) {
-                    case LEFT -> {
-                        var w = rawToID(e.getRawSlot(), 1);
-                        if (Like.getLiked(p).size() <= w) return;
-                        Warps warps = Like.getLiked(p).get(w);
-                        if (warps.material == Material.BARRIER) return;
-                        p.teleport(warps.location);
-                        HayerWarps.send(p, "&7已将您传送到 &f" + warps.name);
-                    }
-                    case RIGHT -> {
-                        var w = rawToID(e.getRawSlot(), 1);
-                        if (Like.getLiked(p).size() <= w) return;
-                        Warps warps = Like.getLiked(p).get(w);
-                        if (warps.material == Material.BARRIER) return;
-                        Like.delLiked(p, Integer.valueOf(warps.getId()));
-                        HayerWarps.send(p, "&a您已取消喜欢 &f" + warps.name);
-                        open(p);
+                var w = rawToID(e.getRawSlot(), 1);
+                if (w == null) return;
+                Warps warps = Like.getLiked(p).get(w);
+                if (e.getCurrentItem().getType() == Material.BARRIER) {
+                    if (Like.getLiked(p).size() <= w) return;
+                    Like.delLiked(p, Integer.valueOf(warps.getId()));
+                    open(p);
+                } else {
+                    if (Like.getLiked(p).size() <= w) return;
+                    switch (e.getClick()) {
+                        case LEFT -> {
+                            p.teleport(warps.location);
+                            HayerWarps.send(p, "&7已将您传送到 &f" + warps.name);
+                        }
+                        case RIGHT -> {
+                            Like.delLiked(p, Integer.valueOf(warps.getId()));
+                            HayerWarps.send(p, "&a您已取消喜欢 &f" + warps.name);
+                            open(p);
+                        }
                     }
                 }
-
             }
         }
     }
