@@ -31,7 +31,7 @@ public class AllWarps implements Listener {
     public static final ItemStack bg = IBuilder.getBorder(Material.GRAY_STAINED_GLASS_PANE);
     public static final ItemStack pages = IBuilder.buildItem(Material.BOOK, "&f切换菜单页数", " ", "&e左键 &7- 上一页", "&e右键 &7- 下一页");
     public static final ItemStack your = IBuilder.buildItem(Material.TOTEM_OF_UNDYING, "&e你创建的传送点", " ", "&7查看你创建的传送点", " ", "&c这里将仅显示 7 个", "&c因为我们不建议您创建", "&c多于 7 个的传送点");
-    public static final ItemStack like = IBuilder.buildItem(Material.GLOW_ITEM_FRAME, "&x&f&2&e&8&c&c")
+    public static final ItemStack like = IBuilder.buildItem(Material.GLOW_ITEM_FRAME, "&x&f&2&e&8&c&c你的喜欢", "", "&7查看你喜欢的传送点", " ", "&c这里将仅显示 15 个", "&c因为我们不允许您收藏", "&c多于 15 个的传送点");
     public static final ItemStack back = IBuilder.buildItem(Material.COMPASS, "&c返回空岛菜单");
 
 
@@ -75,6 +75,7 @@ public class AllWarps implements Listener {
 
         inv.setItem(16, pages);
         inv.setItem(25, your);
+        inv.setItem(34, like);
         inv.setItem(44, back);
 
         p.openInventory(inv);
@@ -124,6 +125,9 @@ public class AllWarps implements Listener {
                 }
                 case 25 -> {
                     YourWarps.open(p);
+                }
+                case 34 -> {
+                    YourLike.open(p);
                 }
                 case 44 -> {
                     Bukkit.dispatchCommand(p, "is");
