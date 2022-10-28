@@ -28,4 +28,14 @@ public class Like {
         );
     }
 
+    public static void delLiked(Player p, Integer i) {
+        var list = ConfigManager.getConfig("liked").getIntegerList(p.getName());
+        list.remove(i);
+        ConfigManager.writeConfig(
+                "liked",
+                p.getName(),
+                list
+        );
+    }
+
 }

@@ -11,11 +11,22 @@ public class Warps {
     Location location;
     Material material;
 
-    public Warps(String p, Location pos, Material icon, String displayname) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    String id;
+
+    public Warps(String p, Location pos, Material icon, String displayname, String i) {
         owner = p;
         location = pos;
         material = icon;
         name = displayname;
+        id = i;
     }
 
     public String getOwner() {

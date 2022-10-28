@@ -6,6 +6,7 @@ import com.iridium.iridiumskyblock.database.User;
 import me.xiaozhangup.hayerwarps.HayerWarps;
 import me.xiaozhangup.hayerwarps.Warps;
 import me.xiaozhangup.hayerwarps.utils.manager.ConfigManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -19,17 +20,20 @@ public class Loader {
     public static int i = 0;
 
     public static void setup() {
-        var config = ConfigManager.getConfig("warps");
-        config.getKeys(false).forEach((s -> {
-            var warp = new Warps(
-                    config.getString(s + ".owner"),
-                    config.getLocation(s + ".pos"),
-                    Material.getMaterial(config.getString(s + ".icon")),
-                    config.getString(s + ".name")
-                    );
-            warps.add(warp);
-            HayerWarps.plugin.getLogger().info(warp.getName() + " Loaded");
-        }));
+        Bukkit.getScheduler().runTaskAsynchronously(HayerWarps.plugin, () -> {
+            var config = ConfigManager.getConfig("warps");
+            warps.clear();
+            config.getKeys(false).forEach((s -> {
+                var warp = new Warps(
+                        config.getString(s + ".owner"),
+                        config.getLocation(s + ".pos"),
+                        Material.getMaterial(config.getString(s + ".icon")),
+                        config.getString(s + ".name"),
+                        s
+                );
+                warps.add(warp);
+                //HayerWarps.plugin.getLogger().info(warp.getName() + " Loaded");
+            }));});
     }
 
     public static void saveAll() {
@@ -62,6 +66,12 @@ public class Loader {
     public static void addWarp(Warps warp) {
         warps.add(warp);
         saveAll();
+        setup();
+    }
+
+    public static void delete(Warps warps) {
+        ConfigManager.writeConfig("warps", warps.getId() + ".icon", "BARRIER");
+        setup();
     }
 
     public static boolean isOnLand(Player p) {

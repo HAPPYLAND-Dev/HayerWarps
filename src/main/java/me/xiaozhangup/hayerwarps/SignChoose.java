@@ -46,7 +46,7 @@ public class SignChoose implements Listener {
                 if (e.getCurrentItem() == null) return;
                 p.closeInventory();
                 HayerWarps.send(p, "&f成功设置了一个传送点!");
-                Warps warps = new Warps(p.getName() ,p.getLocation(), e.getCurrentItem().getType(), warpc.get(p));
+                Warps warps = new Warps(p.getName() ,p.getLocation(), e.getCurrentItem().getType(), warpc.get(p), String.valueOf(Loader.warps.size()));
                 Loader.addWarp(warps);
             }
         }

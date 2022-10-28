@@ -8,7 +8,6 @@ import me.xiaozhangup.hayerwarps.utils.manager.ConfigManager;
 import me.xiaozhangup.hayerwarps.utils.manager.ListenerManager;
 import me.xiaozhangup.hayerwarps.utils.tools.IString;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -34,7 +33,8 @@ public class HayerWarps extends JavaPlugin {
         ConfigManager.createFile("liked");
 
         listenerManager.addListeners(
-                new SignChoose(), new AllWarps()
+                new SignChoose(), new AllWarps(), new YourWarps(),
+                new YourLike()
         );
         listenerManager.register();
 
